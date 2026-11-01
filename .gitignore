@@ -1,0 +1,10 @@
+node_modules/
+dist/
+*.tar.gz
+site.tar.gz
+.env
+.env.*
+!.env.example
+.dev.vars
+.wrangler/
+.DS_Store
