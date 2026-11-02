@@ -48,3 +48,7 @@ Multiplayer tries WebRTC first and switches both players to authenticated HTTPS 
 ## Court surfaces
 
 Choose Clay, Grass, or Hard before starting a match. Clay keeps the original bounce. Grass retains up to 3% more horizontal pace with a 6% lower vertical rebound; hard retains up to 1.5% more pace with a 2% lower rebound. Horizontal retention is capped below 100%. Launch, controls, and movement stay the same. The host’s surface travels in the authoritative match snapshot, so both players see and play the same court; surface selection is locked during multiplayer.
+
+## iPhone app
+
+The bundled iOS app and cloud build/signing setup are in [ios/README.md](ios/README.md). The unsigned Simulator build works without Apple enrollment; TestFlight requires membership and signing configuration.

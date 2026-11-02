@@ -1,0 +1,40 @@
+name: Prepare or upload Rally TestFlight build
+on:
+  workflow_dispatch:
+    inputs:
+      upload:
+        description: Upload the signed build to App Store Connect for TestFlight
+        type: boolean
+        default: false
+permissions:
+  contents: read
+jobs:
+  archive:
+    if: github.ref == 'refs/heads/main'
+    runs-on: macos-26
+    timeout-minutes: 30
+    env:
+      APPLE_TEAM_ID: ${{ vars.APPLE_TEAM_ID }}
+      RALLY_BUNDLE_ID: ${{ vars.RALLY_BUNDLE_ID }}
+      APPLE_CERTIFICATE_P12_BASE64: ${{ secrets.APPLE_CERTIFICATE_P12_BASE64 }}
+      APPLE_CERTIFICATE_PASSWORD: ${{ secrets.APPLE_CERTIFICATE_PASSWORD }}
+      APPLE_PROFILE_BASE64: ${{ secrets.APPLE_PROFILE_BASE64 }}
+    steps:
+      - uses: actions/checkout@v7
+      - uses: actions/setup-node@v7
+        with:
+          node-version: 24
+      - run: bash ios/scripts/archive.sh
+      - uses: actions/upload-artifact@v7
+        with:
+          name: Rally-signed-iPhone
+          path: ios/build/export/*.ipa
+          if-no-files-found: error
+      - name: Upload to TestFlight
+        if: inputs.upload
+        uses: Apple-Actions/upload-testflight-build@v5
+        with:
+          app-path: ios/build/export/Rally.ipa
+          issuer-id: ${{ vars.APPSTORE_ISSUER_ID }}
+          api-key-id: ${{ vars.APPSTORE_API_KEY_ID }}
+          api-private-key: ${{ secrets.APPSTORE_API_PRIVATE_KEY }}

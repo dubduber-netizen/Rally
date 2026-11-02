@@ -1,0 +1,35 @@
+name: Build Rally for iPhone
+on:
+  push:
+    branches: [main]
+    paths: ['ios/**', 'worker/index.js', 'scripts/prepare-ios.mjs', 'tests/ios.mjs', '.github/workflows/ios.yml']
+  pull_request:
+    paths: ['ios/**', 'worker/index.js', 'scripts/prepare-ios.mjs', 'tests/ios.mjs', '.github/workflows/ios.yml']
+  workflow_dispatch:
+permissions:
+  contents: read
+concurrency:
+  group: ios-${{ github.ref }}
+  cancel-in-progress: true
+jobs:
+  simulator:
+    runs-on: macos-26
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@v7
+      - uses: actions/setup-node@v7
+        with:
+          node-version: 24
+      - run: node scripts/prepare-ios.mjs && node tests/ios.mjs
+      - name: Create bundled icon
+        run: swift ios/make-icon.swift ios/Rally/Assets.xcassets/AppIcon.appiconset/AppIcon.png
+      - name: Build for iPhone Simulator without signing
+        run: >-
+          xcodebuild -project ios/Rally.xcodeproj -scheme Rally -configuration Debug
+          -sdk iphonesimulator -destination 'generic/platform=iOS Simulator'
+          -derivedDataPath ios/build CODE_SIGNING_ALLOWED=NO build
+      - uses: actions/upload-artifact@v7
+        with:
+          name: Rally-iPhone-Simulator
+          path: ios/build/Build/Products/Debug-iphonesimulator/Rally.app
+          if-no-files-found: error

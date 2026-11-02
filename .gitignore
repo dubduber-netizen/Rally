@@ -8,3 +8,9 @@ site.tar.gz
 .dev.vars
 .wrangler/
 .DS_Store
+ios/Rally/Resources/game.html
+ios/Rally/Assets.xcassets/AppIcon.appiconset/AppIcon.png
+ios/build/
+*.p12
+*.mobileprovision
+AuthKey_*.p8

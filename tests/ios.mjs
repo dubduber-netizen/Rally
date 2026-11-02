@@ -1,0 +1,11 @@
+import assert from 'node:assert/strict';import fs from 'node:fs';import vm from 'node:vm';
+const html=fs.readFileSync(new URL('../ios/Rally/Resources/game.html',import.meta.url),'utf8');
+assert.ok(html.includes("const link=new URL('https://rally-tennis.dubduber.chatgpt.site/')"));assert.ok(html.includes('rallyappstate'));assert.ok(html.includes('window.rallyAppPaused'));for(const surface of ['clay','grass','hard'])assert.ok(html.includes('data-surface="'+surface+'"'));
+const messages=[],navigator={},window={fetch:async()=>{throw Error('Unexpected external request')},webkit:{messageHandlers:{rally:{postMessage:m=>messages.push(m)}}}};
+vm.runInNewContext(fs.readFileSync(new URL('../ios/Rally/Resources/bridge.js',import.meta.url),'utf8'),{window,navigator,Map,Headers,Response,DOMException});
+let result=window.fetch('/api/rooms/ABCD',{method:'PATCH',headers:{'x-rally-token':'abc'},body:'{"heartbeat":true}'});let message=messages.pop();assert.equal(message.path,'/api/rooms/ABCD');assert.equal(message.headers['x-rally-token'],'abc');window.rallyNativeReply(message.id,{status:200,body:'{"ok":true}'});assert.equal((await (await result).json()).ok,true);
+result=window.fetch('/api/relay/123');message=messages.pop();window.rallyNativeReply(message.id,{status:401,body:'{"error":"Expired"}'});assert.equal((await result).status,401);
+const abort=new AbortController();result=window.fetch('/api/ranked/status',{signal:abort.signal});message=messages.pop();abort.abort();await assert.rejects(result,{name:'AbortError'});assert.equal(messages.pop().type,'cancel');window.rallyNativeReply(message.id,{status:200,body:'{}'});
+result=window.fetch('/api/ranked/status');message=messages.pop();window.rallyNativeReply(message.id,{error:'Offline'});await assert.rejects(result,/Offline/);
+await navigator.share({url:'https://rally-tennis.dubduber.chatgpt.site/?room=ABCD'});assert.equal(messages.pop().type,'share');await navigator.clipboard.writeText('ABCD');assert.equal(messages.pop().text,'ABCD');
+console.log('PASS: bundled courts and native pause, production invite URL, native API responses/auth/errors, cancellation, native sharing and clipboard');
