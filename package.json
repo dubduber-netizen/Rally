@@ -4,7 +4,7 @@
   "scripts": {
     "dev": "node scripts/preview.mjs",
     "db:generate": "drizzle-kit generate",
-    "test": "node --check worker/index.js && node tests/ranked.mjs && node tests/topspin.mjs && node tests/drop-shot.mjs && node tests/connection.mjs && node tests/relay.mjs",
+    "test": "node --check worker/index.js && node tests/ranked.mjs && node tests/topspin.mjs && node tests/drop-shot.mjs && node tests/connection.mjs && node tests/relay.mjs && node tests/surfaces.mjs",
     "build": "bash scripts/build.sh && node scripts/validate-artifact.mjs"
   },
   "devDependencies": {

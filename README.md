@@ -44,3 +44,7 @@ Use separate branches and pull requests. Follow [CONTRIBUTING.md](CONTRIBUTING.m
 The current game is hosted through ChatGPT Sites. GitHub pushes and merges do not automatically deploy this Site. After a pull request is merged, ask Codex to apply the merged source to this existing Site and publish it. Keep its existing Site identity and production database bindings. Never commit passwords, access tokens, or database exports.
 
 Multiplayer tries WebRTC first and switches both players to authenticated HTTPS exchanges if connecting or recovery takes eight seconds. The fallback prioritizes connectivity and can have more latency than a successful direct connection. Room tokens persist in session storage so a guest can refresh and rejoin the same occupied seat.
+
+## Court surfaces
+
+Choose Clay, Grass, or Hard before starting a match. Clay keeps the original bounce. Grass retains up to 3% more horizontal pace with a 6% lower vertical rebound; hard retains up to 1.5% more pace with a 2% lower rebound. Horizontal retention is capped below 100%. Launch, controls, and movement stay the same. The host’s surface travels in the authoritative match snapshot, so both players see and play the same court; surface selection is locked during multiplayer.
