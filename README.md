@@ -1,6 +1,6 @@
 # Rally Tennis
 
-A browser tennis game with computer practice, direct WebRTC friend matches, four-letter room codes, touch controls, and Elo ranked matchmaking.
+A browser tennis game with computer practice, direct WebRTC friend matches with an automatic server fallback, four-letter room codes, touch controls, and Elo ranked matchmaking.
 
 Live game: https://rally-tennis.dubduber.chatgpt.site/
 
@@ -27,7 +27,7 @@ Pull requests run these checks automatically.
 ## Where to edit
 
 - `worker/index.js`: gameplay, the embedded HTML interface, WebRTC networking, ranked APIs, and room APIs. The `HTML` constant at the top contains the page; the remaining code runs on the server.
-- `db/schema.ts`: ranked database schema.
+- `db/schema.ts`: ranked and relay database schema.
 - `drizzle/`: generated migrations and schema history. Preserve previously deployed migrations.
 - `scripts/preview.mjs`: local development server.
 - `tests/ranked.mjs`: matchmaking, rating, room ownership, cancellation, and forfeit checks.
@@ -42,3 +42,5 @@ Use separate branches and pull requests. Follow [CONTRIBUTING.md](CONTRIBUTING.m
 ## Publish
 
 The current game is hosted through ChatGPT Sites. GitHub pushes and merges do not automatically deploy this Site. After a pull request is merged, ask Codex to apply the merged source to this existing Site and publish it. Keep its existing Site identity and production database bindings. Never commit passwords, access tokens, or database exports.
+
+Multiplayer tries WebRTC first and switches both players to authenticated HTTPS exchanges if connecting or recovery takes eight seconds. The fallback prioritizes connectivity and can have more latency than a successful direct connection. Room tokens persist in session storage so a guest can refresh and rejoin the same occupied seat.
