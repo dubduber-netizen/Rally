@@ -52,3 +52,7 @@ Choose Clay, Grass, or Hard before starting a match. Clay keeps the original bou
 ## iPhone app
 
 The bundled iOS app and cloud build/signing setup are in [ios/README.md](ios/README.md). The unsigned Simulator build works without Apple enrollment; TestFlight requires membership and signing configuration.
+
+## Desktop controls
+
+Left-click the court for backhand; right-click for forehand. Hold either mouse button and release for topspin. Move and aim with WASD or arrow keys. Space (or Z) drops, X lobs, Q/E play backhand/forehand, F uses the selected stroke, and B switches stroke. Open **Customize controls** to change mouse actions or shot keys; settings are saved in this browser. Conflicting shot keys swap assignments, while movement keys remain reserved. Touch joystick and shot buttons keep their existing behavior.

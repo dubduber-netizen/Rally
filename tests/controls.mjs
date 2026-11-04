@@ -1,0 +1,18 @@
+import assert from 'node:assert/strict';import fs from 'node:fs';import vm from 'node:vm';
+const s=fs.readFileSync(new URL('../worker/index.js',import.meta.url),'utf8'),html=JSON.parse(s.slice(11,s.indexOf(';\n'))),js=html.split('<script>')[1].split('</script>')[0];
+let clock=0,stored=null;const events=new Map(),elements=new Map();
+const element=()=>({textContent:'',value:'',hidden:false,dataset:{},style:{setProperty(){}},setAttribute(){},querySelector(){return {textContent:''}}});
+const canvas={focus(){},setAttribute(){},setPointerCapture(){},getBoundingClientRect:()=>({left:0,top:0,width:840,height:740})};
+const c={structuredClone,Map,Set,JSON,localStorage:{getItem:()=>stored,setItem:(key,value)=>stored=value},window:{addEventListener:(name,fn)=>{if(!events.has(name))events.set(name,[]);events.get(name).push(fn)}},document:{hidden:false,querySelectorAll:()=>[],addEventListener(){}},canvas,$:id=>{if(!elements.has(id))elements.set(id,element());return elements.get(id)},keys:{},target:null,pointerId:null,practice:true,heldSwing:null,backhand:false,engine:{s:{phase:'rally',pointId:1}},performance:{now:()=>clock},clamp:(v,a,b)=>Math.max(a,Math.min(b,v)),shotSeq:0,sendInputNow(){},pointView:()=>1};c.setStroke=v=>c.backhand=v;c.toggleBackhand=()=>c.backhand=!c.backhand;
+vm.createContext(c);vm.runInContext('const chargePower=ms=>clamp((ms-140)/660,0,1);'+js.slice(js.indexOf('function swingShot('),js.indexOf('for(const [button,isBackhand]')),c);vm.runInContext(js.slice(js.indexOf('const DEFAULT_CONTROLS='),js.indexOf('function readInput()')),c);
+const mouse=button=>({button,preventDefault(){}}),key=(code,value,repeat=false,editing=false)=>({code,key:value,repeat,target:{closest:()=>editing?{}:null},preventDefault(){this.prevented=true},stopImmediatePropagation(){}});
+canvas.onmousedown(mouse(0));clock=80;events.get('mouseup')[0](mouse(0));assert.equal(c.backhand,true);assert.equal(c.shotSeq,1);assert.equal(c.shotCharge,0);
+canvas.onmousedown(mouse(2));clock=1000;events.get('mouseup')[0](mouse(0));assert.ok(c.heldSwing);events.get('mouseup')[0](mouse(2));assert.equal(c.backhand,false);assert.equal(c.shotSeq,2);assert.equal(c.shotCharge,1);
+c.controlsKeyDown(key('Space',' '));assert.equal(c.shotDrop,true);assert.equal(c.shotSeq,3);c.controlsKeyDown(key('Space',' ',true));assert.equal(c.shotSeq,3);c.controlsKeyDown(key('Space',' ',false,true));assert.equal(c.shotSeq,3);
+c.controlsKeyDown(key('KeyQ','q'));assert.equal(c.backhand,true);clock=1900;events.get('keyup')[0](key('KeyQ','q'));assert.equal(c.shotCharge,1);
+assert.equal(c.assignKey('forehand','Space'),true);c.controlsKeyDown(key('Space',' '));assert.equal(c.backhand,false);events.get('keyup')[0](key('Space',' '));assert.equal(c.assignKey('drop','KeyW'),false);const saved=JSON.parse(stored);assert.equal(saved.keys.forehand,'Space');assert.equal(saved.keys.drop,'KeyE');assert.equal(c.loadControls().keys.forehand,'Space');
+let prevented=false;canvas.oncontextmenu({preventDefault(){prevented=true}});assert.equal(prevented,true);
+canvas.onpointerdown({pointerType:'mouse',pointerId:1});assert.equal(c.target,null);canvas.onpointerdown({pointerType:'touch',pointerId:2,clientX:440,clientY:500,preventDefault(){}});assert.ok(c.target);canvas.onpointerup({pointerType:'touch',pointerId:2});assert.equal(c.target,null);
+c.controlsKeyDown(key('Space',' '));events.get('blur')[0]();assert.equal(c.heldSwing,null);
+stored='{"keys":{},"mouse":{}}';assert.equal(c.loadControls().keys.drop,'Space');
+console.log('PASS: left/right stroke selection, tap/charge and mismatched release, Space drop without repeat or typing interference, remap/swap/persistence, reserved movement keys, context menu suppression, touch movement, blur cleanup');
