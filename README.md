@@ -56,3 +56,7 @@ The bundled iOS app and cloud build/signing setup are in [ios/README.md](ios/REA
 ## Desktop controls
 
 Left-click the court for backhand; right-click for forehand. Hold either mouse button and release for topspin. Move and aim with WASD or arrow keys. Space (or Z) drops, X lobs, Q/E play backhand/forehand, F uses the selected stroke, and B switches stroke. Open **Customize controls** to change mouse actions or shot keys; settings are saved in this browser. Conflicting shot keys swap assignments, while movement keys remain reserved. Touch joystick and shot buttons keep their existing behavior.
+
+## Rackets
+
+Choose a racket before joining a multiplayer match. All three are unlocked, and your preference is saved locally. All-round (pale green) keeps the original physics. Drive (amber) serves 6% faster but reduces the charged spin effect by 25%. Touch (teal) places drops 0.3 m shorter with a softer bounce, in exchange for 5% less rally pace and 4% less serve pace. Racket frames and grips use the same colors on court. Forehand/backhand remain equal, and movement/reach are unaffected. The host locks a guest's racket on their first input and sends both choices with snapshots, including when using server fallback.
