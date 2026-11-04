@@ -59,4 +59,14 @@ Left-click the court for backhand; right-click for forehand. Hold either mouse b
 
 ## Rackets
 
-Choose a racket before joining a multiplayer match. All three are unlocked, and your preference is saved locally. All-round (pale green) keeps the original physics. Drive (amber) serves 6% faster but reduces the charged spin effect by 25%. Touch (teal) places drops 0.3 m shorter with a softer bounce, in exchange for 5% less rally pace and 4% less serve pace. Racket frames and grips use the same colors on court. Forehand/backhand remain equal, and movement/reach are unaffected. The host locks a guest's racket on their first input and sends both choices with snapshots, including when using server fallback.
+Choose a racket before a match. The first serve locks the choice for the whole match, including breaks, faults and new sets. Start a new practice match to choose again. In multiplayer, choose before joining; choices are synchronized and fixed for that session.
+
+- **Drive (amber):** 10% stronger forehand and serve, 12% slower backhand, and an extra 15% pace penalty when returning a serve. Ordinary drops and less spin than Spin.
+- **Spin (pale green):** heavy charged topspin from forehand and backhand, a normal serve, and drops that land deeper and bounce higher.
+- **Touch (teal):** softer, shorter drops with normal forehand, backhand and serve pace. Less charged spin than Spin.
+
+The three options are unlocked and saved locally. Racket frames and grips match their picker colors. Practice waits for a shot or the Practice match button so the bot cannot start before you choose a racket.
+
+## Held lobs
+
+Tap Lob (or its assigned key/mouse button) for the original trajectory. Hold and release for a higher, deeper lob, reaching full charge at about 0.8 seconds. A full charge adds up to 2.2 m of depth while capping the charged landing target near the baseline. The lob button fills during charging and shows LOB + when ready. Switching shots, losing focus, or changing points cancels an unfinished hold.

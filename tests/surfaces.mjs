@@ -11,5 +11,5 @@ for(const input of [{x:1,y:0,charge:0},{x:-1,y:1,charge:1},{x:0,y:0,lob:true},{x
  const balls=[];for(const surface of ['clay','grass','hard']){const e=new c.Engine(0,surface);e.s.phase='rally';Object.assign(e.s.p[0],{x:0,y:10});Object.assign(e.s.b,{x:.5,y:10,z:1,last:1,bounces:1});e.launch(0,input);balls.push(JSON.stringify(e.s.b))}assert.equal(balls[0],balls[1]);assert.equal(balls[0],balls[2]);
 }
 assert.equal(new c.Engine(0,'unknown').s.surface,'clay');const host=new c.Engine(0,'grass'),guest=new c.Engine(0,'hard');guest.s=JSON.parse(JSON.stringify(host.s));assert.equal(guest.s.surface,'grass');guest.setupPoint();assert.equal(guest.s.surface,'grass');
-for(const id of ['clay','grass','hard'])assert.ok(html.includes('data-surface="'+id+'"'));assert.ok(js.includes('if(!practice)return;selectedSurface='));
+for(const id of ['clay','grass','hard'])assert.ok(html.includes('data-surface="'+id+'"'));assert.ok(js.includes('if(racketChoiceLocked())return;selectedSurface='));
 console.log('PASS: subtle surface pace/bounce differences, no added bounce speed, unchanged shot launch, serialized multiplayer surface, point persistence and match selection lock');
