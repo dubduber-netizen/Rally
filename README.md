@@ -59,14 +59,18 @@ Left-click the court for backhand; right-click for forehand. Hold either mouse b
 
 ## Rackets
 
-Choose a racket before a match. The first serve locks the choice for the whole match, including breaks, faults and new sets. Start a new practice match to choose again. In multiplayer, choose before joining; choices are synchronized and fixed for that session.
+Choose a racket before a match. Press Ready after choosing your racket. Practice starts only after you ready up; multiplayer waits for both players. While waiting, Unready lets you change rackets. Once both players are ready, choices stay fixed for that match, including breaks, faults and new sets. A new match opens a fresh ready-up lobby.
 
 - **Drive (amber):** 10% stronger forehand and serve, 12% slower backhand, and an extra 15% pace penalty when returning a serve. Ordinary drops and less spin than Spin.
 - **Spin (pale green):** heavy charged topspin from forehand and backhand, a normal serve, and drops that land deeper and bounce higher.
 - **Touch (teal):** softer, shorter drops with normal forehand, backhand and serve pace. Less charged spin than Spin.
 
-The three options are unlocked and saved locally. Racket frames and grips match their picker colors. Practice waits for a shot or the Practice match button so the bot cannot start before you choose a racket.
+The three options are unlocked and saved locally. Racket frames and grips match their picker colors. Practice waits for the Ready button so the bot cannot start before you choose a racket.
 
 ## Held lobs
 
 Tap Lob (or its assigned key/mouse button) for the original trajectory. Hold and release for a higher, deeper lob, reaching full charge at about 0.8 seconds. A full charge adds up to 2.2 m of depth while capping the charged landing target near the baseline. The lob button fills during charging and shows LOB + when ready. Switching shots, losing focus, or changing points cancels an unfinished hold.
+
+## Mobile joystick
+
+The mobile joystick now scales from 132 to 164 px, with a larger center grip and movement travel that fits inside the pad. Smaller phones use a narrower shot pad to keep the two thumb controls side by side.
