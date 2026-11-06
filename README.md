@@ -74,3 +74,7 @@ Tap Lob (or its assigned key/mouse button) for the original trajectory. Hold and
 ## Mobile joystick
 
 The mobile joystick now scales from 132 to 164 px, with a larger center grip and movement travel that fits inside the pad. Smaller phones use a narrower shot pad to keep the two thumb controls side by side.
+
+## Multiplayer latency handling
+
+The joining player keeps a short movement history and reconciles snapshots against the host's acknowledged input, avoiding repeated corrections to already-predicted movement. Visual ball prediction is bounded to 300 ms and follows the first bounce without mutating match state. Server relay exchanges use one authenticated UPDATE RETURNING on the normal path, run one request at a time at up to 20 Hz, and no longer add a fixed 50 ms after a slow response. Server-derived peer age avoids device clock skew; the connection badge keeps the transport and round-trip time visible. Static court art and unchanged menu state are cached to reduce mobile drawing/DOM work. These changes reduce avoidable delay but do not remove network latency or replace the need for on-device, separate-network testing.
